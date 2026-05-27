@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 // Body parser
 app.use(express.json());
@@ -18,7 +18,7 @@ function getGeminiClient() {
   if (!aiInstance) {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey || apiKey === "MY_GEMINI_API_KEY") {
-      throw new Error("GEMINI_API_KEY 未正確設定。請至 AI Studio 右上角的 Settings > Secrets 面板中設定您的 API 金鑰。");
+      throw new Error("GEMINI_API_KEY 未正確設定。請設定環境變數 GEMINI_API_KEY，或於 .env 檔案中提供 API 金鑰。");
     }
     aiInstance = new GoogleGenAI({
       apiKey: apiKey,
